@@ -24,7 +24,7 @@ body {
 
 /* Hero carousel */
 .carousel-item {
-  transition: opacity 1.2s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
   position: absolute;
   inset: 0;
   opacity: 0;
