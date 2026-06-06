@@ -72,34 +72,88 @@ document.addEventListener('DOMContentLoaded', function () {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
-  /* ---- Contact form -> mailto ---- */
+  /* ---- Contact form -> Web3Forms (email) + Supabase (database) ---- */
   var form = document.getElementById('contact-form');
   if (form) {
+    var WEB3FORMS_KEY = 'db141016-8e80-4247-9acf-26ed8d3494cd';
+    var SUPABASE_URL = 'https://rvlmtpcuclthdatzmnol.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG10cGN1Y2x0aGRhdHptbm9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NjcwMzcsImV4cCI6MjA5NjM0MzAzN30.AjS88fM-rBMlOV-aQ32XCxnu2GGv_bPDexrmHGsVkns';
+
+    var note = document.getElementById('form-note');
+    var submitBtn = document.getElementById('submit-btn');
+
+    var setNote = function (msg, kind) {
+      if (!note) return;
+      note.textContent = msg;
+      note.classList.remove('hidden', 'text-primary', 'text-error', 'text-on-surface-variant');
+      note.classList.add(kind === 'error' ? 'text-error' : kind === 'muted' ? 'text-on-surface-variant' : 'text-primary');
+    };
+
+    var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
-      var name = get('name');
-      var email = get('email');
-      var phone = get('phone');
-      var service = get('service');
-      var message = get('message');
 
-      var subject = 'Website Inquiry' + (service ? ' — ' + service : '');
-      var bodyLines = [
-        'Name: ' + name,
-        'Email: ' + email,
-        'Phone: ' + phone,
-        'Service Required: ' + service,
-        '',
-        message
-      ];
-      var href = 'mailto:deanryans@rogers.com'
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(bodyLines.join('\n'));
-      window.location.href = href;
+      // Honeypot — silently drop bot submissions
+      var hp = form.querySelector('[name="botcheck"]');
+      if (hp && hp.checked) return;
 
-      var note = document.getElementById('form-note');
-      if (note) note.classList.remove('hidden');
+      var data = {
+        name: get('name'),
+        email: get('email'),
+        phone: get('phone'),
+        service: get('service'),
+        message: get('message')
+      };
+
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+      setNote('Sending your message…', 'muted');
+
+      // 1) Web3Forms — emails deanryans@rogers.com
+      var emailReq = fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: 'New Website Inquiry' + (data.service ? ' — ' + data.service : ''),
+          from_name: 'Dean Ryans Website',
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          service: data.service,
+          message: data.message
+        })
+      }).then(function (r) { return r.json(); })
+        .then(function (j) { return j && j.success === true; })
+        .catch(function () { return false; });
+
+      // 2) Supabase — stores the submission in contact_submissions
+      var dbReq = fetch(SUPABASE_URL + '/rest/v1/contact_submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      }).then(function (r) { return r.ok; })
+        .catch(function () { return false; });
+
+      Promise.all([emailReq, dbReq]).then(function (results) {
+        var emailOk = results[0];
+        var dbOk = results[1];
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send Message'; }
+
+        if (emailOk || dbOk) {
+          form.reset();
+          setNote("Thanks! Your message has been sent — we'll be in touch shortly.", 'success');
+          if (!emailOk) console.warn('Contact form: email delivery failed but submission was saved.');
+          if (!dbOk) console.warn('Contact form: database save failed but email was sent.');
+        } else {
+          setNote('Sorry, something went wrong. Please call 613.825.7913 or email deanryans@rogers.com.', 'error');
+        }
+      });
     });
   }
 });

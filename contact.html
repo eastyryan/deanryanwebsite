@@ -123,7 +123,7 @@
       <div class="reveal">
         <div class="bg-background-deep border border-white/10 rounded-lg p-8 glow-crimson-focus">
           <h2 class="font-headline-md text-headline-md text-white mb-2">Send an Inquiry</h2>
-          <p class="font-body-md text-on-surface-variant mb-8">Fill out the form below and we'll get back to you. This opens your email app with the details ready to send.</p>
+          <p class="font-body-md text-on-surface-variant mb-8">Fill out the form below and we'll get back to you within one business day.</p>
           <form id="contact-form" class="space-y-6">
             <div>
               <label for="name" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Full Name</label>
@@ -153,8 +153,10 @@
               <label for="message" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Message</label>
               <textarea id="message" name="message" rows="5" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none resize-y" placeholder="Tell us about your property and what you need..."></textarea>
             </div>
-            <button type="submit" class="w-full bg-primary-container text-white py-4 rounded font-bold uppercase tracking-widest hover:bg-crimson-accent transition-all">Send Message</button>
-            <p id="form-note" class="hidden font-body-md text-primary text-center">Your email app should now be open with your message. If it didn't open, email us directly at deanryans@rogers.com.</p>
+            <!-- Honeypot: hidden from real users, catches bots -->
+            <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button id="submit-btn" type="submit" class="w-full bg-primary-container text-white py-4 rounded font-bold uppercase tracking-widest hover:bg-crimson-accent transition-all disabled:opacity-60 disabled:cursor-not-allowed">Send Message</button>
+            <p id="form-note" class="hidden font-body-md text-center" role="status" aria-live="polite"></p>
           </form>
         </div>
       </div>
