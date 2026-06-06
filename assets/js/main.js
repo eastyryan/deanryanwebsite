@@ -72,6 +72,51 @@ document.addEventListener('DOMContentLoaded', function () {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
+  /* ---- Gallery lightbox ---- */
+  var galleryItems = Array.prototype.slice.call(document.querySelectorAll('.gallery-item'));
+  var lightbox = document.getElementById('lightbox');
+  if (lightbox && galleryItems.length) {
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCaption = document.getElementById('lightbox-caption');
+    var current = 0;
+
+    var show = function (i) {
+      current = (i + galleryItems.length) % galleryItems.length;
+      var el = galleryItems[current];
+      lbImg.src = el.getAttribute('data-src');
+      lbImg.alt = (el.querySelector('img') || {}).alt || '';
+      lbCaption.textContent = el.getAttribute('data-caption') || '';
+    };
+    var openLb = function (i) {
+      show(i);
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    };
+    var closeLb = function () {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      document.body.style.overflow = '';
+    };
+
+    galleryItems.forEach(function (el, i) {
+      el.addEventListener('click', function () { openLb(i); });
+    });
+    var closeBtn = document.getElementById('lightbox-close');
+    var prevBtn = document.getElementById('lightbox-prev');
+    var nextBtn = document.getElementById('lightbox-next');
+    if (closeBtn) closeBtn.addEventListener('click', closeLb);
+    if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); show(current - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); show(current + 1); });
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLb(); });
+    document.addEventListener('keydown', function (e) {
+      if (lightbox.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLb();
+      else if (e.key === 'ArrowLeft') show(current - 1);
+      else if (e.key === 'ArrowRight') show(current + 1);
+    });
+  }
+
   /* ---- Contact form -> Web3Forms (email) + Supabase (database) ---- */
   var form = document.getElementById('contact-form');
   if (form) {
