@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Dean Ryans Enterprises</title>
+<meta name="description" content="Get in touch with Dean Ryans Enterprises for snow removal, lawn care, landscaping, and bin rentals in Ottawa &amp; Barrhaven. Call 613.825.7913 for a free quote.">
+<link rel="icon" type="image/png" href="assets/images/logo.png">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="assets/js/config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-background text-on-surface font-body-md">
+
+<!-- ===== Header ===== -->
+<header id="site-header" class="fixed top-0 w-full z-50 border-b border-outline-variant/10 bg-black/95 backdrop-blur-sm transition-shadow">
+  <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 max-w-max-width mx-auto">
+    <a href="index.html" class="flex items-center gap-4 shrink-0">
+      <img alt="Dean Ryans Enterprises" class="h-11 w-auto" src="assets/images/logo.png">
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a class="font-medium text-secondary-fixed-dim hover:text-primary transition-colors" href="index.html">Home</a>
+      <a class="font-medium text-secondary-fixed-dim hover:text-primary transition-colors" href="services.html">Services</a>
+      <a class="font-medium text-secondary-fixed-dim hover:text-primary transition-colors" href="about.html">About Us</a>
+      <a class="font-bold border-b-2 border-primary pb-1 text-white" href="contact.html">Contact</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a class="hidden sm:inline-flex items-center gap-2 bg-primary-container text-white px-5 py-2 rounded font-bold hover:bg-crimson-accent transition-all" href="tel:6138257913">
+        <span class="material-symbols-outlined text-xl">call</span> Call Now
+      </a>
+      <button id="menu-btn" class="md:hidden text-white p-2" aria-label="Open menu">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Mobile drawer ===== -->
+<div id="drawer-overlay" class="fixed inset-0 bg-black/70 z-50 hidden opacity-0 md:hidden"></div>
+<aside id="nav-drawer" class="fixed top-0 right-0 h-full w-72 max-w-[80vw] bg-surface-container-lowest border-l border-outline-variant/20 z-50 translate-x-full md:hidden flex flex-col">
+  <div class="flex items-center justify-between h-20 px-6 border-b border-outline-variant/10">
+    <img alt="Dean Ryans" class="h-9 w-auto" src="assets/images/logo.png">
+    <button id="drawer-close" class="text-white p-2" aria-label="Close menu"><span class="material-symbols-outlined text-3xl">close</span></button>
+  </div>
+  <nav class="flex flex-col p-6 gap-2 text-body-lg">
+    <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="index.html"><span class="material-symbols-outlined text-primary">home</span>Home</a>
+    <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="services.html"><span class="material-symbols-outlined text-primary">build</span>Services</a>
+    <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="about.html"><span class="material-symbols-outlined text-primary">info</span>About Us</a>
+    <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="contact.html"><span class="material-symbols-outlined text-primary">mail</span>Contact</a>
+  </nav>
+  <a class="mt-auto m-6 inline-flex items-center justify-center gap-2 bg-primary-container text-white px-5 py-3 rounded font-bold hover:bg-crimson-accent transition-all" href="tel:6138257913">
+    <span class="material-symbols-outlined">call</span> 613.825.7913
+  </a>
+</aside>
+
+<main class="pt-20">
+
+  <!-- ===== Hero ===== -->
+  <section class="relative py-24 md:py-28 px-margin-mobile md:px-margin-desktop border-b border-outline-variant/10 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('assets/images/snow-tractor.jpg');">
+    <div class="max-w-max-width mx-auto text-center">
+      <span class="font-label-mono text-label-mono uppercase tracking-widest text-primary mb-4 block">Get In Touch</span>
+      <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-6 text-shadow-hero">Contact Us</h1>
+      <p class="font-body-lg text-body-lg text-white/90 max-w-2xl mx-auto">Ready to secure your property's maintenance? Reach out for a free, no-obligation quote.</p>
+    </div>
+  </section>
+
+  <!-- ===== Contact body ===== -->
+  <section class="py-20 md:py-28 px-margin-mobile md:px-margin-desktop">
+    <div class="max-w-max-width mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+      <!-- Info column -->
+      <div class="reveal">
+        <h2 class="font-headline-md text-headline-md text-white mb-8 flex items-center gap-3"><span class="material-symbols-outlined text-primary">contact_support</span>Direct Contact</h2>
+        <ul class="space-y-6 mb-12">
+          <li class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary mt-1">call</span>
+            <div>
+              <div class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-1">Phone</div>
+              <a href="tel:6138257913" class="font-body-lg text-white hover:text-primary transition-colors">613.825.7913</a>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary mt-1">mail</span>
+            <div>
+              <div class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-1">Email</div>
+              <a href="mailto:deanryans@rogers.com" class="font-body-lg text-white hover:text-primary transition-colors break-all">deanryans@rogers.com</a>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary mt-1">group</span>
+            <div>
+              <div class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-1">Social</div>
+              <a href="https://www.facebook.com/Dean-Ryan-Enterprises-Inc-510440059068382/" target="_blank" rel="noopener" class="font-body-lg text-white hover:text-primary transition-colors">Facebook</a>
+            </div>
+          </li>
+          <li class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary mt-1">location_on</span>
+            <div>
+              <div class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-1">Service Area</div>
+              <p class="font-body-lg text-white">Ottawa &amp; Barrhaven</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="rounded-lg border border-outline-variant/20 bg-surface-container-lowest p-8">
+          <h3 class="font-headline-md text-headline-md text-white mb-2">Service Coverage</h3>
+          <p class="font-body-md text-on-surface-variant mb-6">Family operated and locally based, we provide property maintenance throughout the Greater Ottawa region.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <span class="flex items-center gap-2 font-label-mono text-label-mono text-white"><span class="material-symbols-outlined text-primary text-xl">place</span>Ottawa</span>
+            <span class="flex items-center gap-2 font-label-mono text-label-mono text-white"><span class="material-symbols-outlined text-primary text-xl">place</span>Barrhaven</span>
+            <span class="flex items-center gap-2 font-label-mono text-label-mono text-white"><span class="material-symbols-outlined text-primary text-xl">place</span>Nepean</span>
+            <span class="flex items-center gap-2 font-label-mono text-label-mono text-white"><span class="material-symbols-outlined text-primary text-xl">place</span>Kanata</span>
+          </div>
+          <p class="font-caption text-caption text-on-surface-variant mt-6">Outside these areas? Give us a call — we may still be able to help.</p>
+        </div>
+      </div>
+
+      <!-- Form column -->
+      <div class="reveal">
+        <div class="bg-background-deep border border-white/10 rounded-lg p-8 glow-crimson-focus">
+          <h2 class="font-headline-md text-headline-md text-white mb-2">Send an Inquiry</h2>
+          <p class="font-body-md text-on-surface-variant mb-8">Fill out the form below and we'll get back to you. This opens your email app with the details ready to send.</p>
+          <form id="contact-form" class="space-y-6">
+            <div>
+              <label for="name" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Full Name</label>
+              <input id="name" name="name" type="text" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="Your name">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="email" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Email</label>
+                <input id="email" name="email" type="email" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="you@example.com">
+              </div>
+              <div>
+                <label for="phone" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Phone</label>
+                <input id="phone" name="phone" type="tel" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="613.000.0000">
+              </div>
+            </div>
+            <div>
+              <label for="service" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Service Required</label>
+              <select id="service" name="service" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none">
+                <option>Snow Removal</option>
+                <option>Lawn Care</option>
+                <option>Landscaping</option>
+                <option>Bin Rentals</option>
+                <option>Other / Multiple</option>
+              </select>
+            </div>
+            <div>
+              <label for="message" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Message</label>
+              <textarea id="message" name="message" rows="5" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none resize-y" placeholder="Tell us about your property and what you need..."></textarea>
+            </div>
+            <button type="submit" class="w-full bg-primary-container text-white py-4 rounded font-bold uppercase tracking-widest hover:bg-crimson-accent transition-all">Send Message</button>
+            <p id="form-note" class="hidden font-body-md text-primary text-center">Your email app should now be open with your message. If it didn't open, email us directly at deanryans@rogers.com.</p>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="border-t border-outline-variant/10 bg-black">
+  <div class="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop pt-20 pb-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+      <div class="md:col-span-2">
+        <img alt="Dean Ryans Enterprises" class="h-10 w-auto mb-6" src="assets/images/logo.png">
+        <p class="text-on-surface-variant font-body-md max-w-sm">Professional property maintenance since 1991. Snow removal, lawn care, landscaping, and bin rentals across Ottawa &amp; Barrhaven.</p>
+      </div>
+      <div>
+        <h5 class="font-headline-md text-headline-md mb-6 text-white">Navigation</h5>
+        <ul class="space-y-4 font-body-md text-on-surface-variant">
+          <li><a class="hover:text-primary transition-colors" href="index.html">Home</a></li>
+          <li><a class="hover:text-primary transition-colors" href="services.html">Services</a></li>
+          <li><a class="hover:text-primary transition-colors" href="about.html">About Us</a></li>
+          <li><a class="hover:text-primary transition-colors" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-headline-md text-headline-md mb-6 text-white">Get In Touch</h5>
+        <ul class="space-y-4 font-body-md text-on-surface-variant">
+          <li><a class="hover:text-primary transition-colors" href="tel:6138257913">613.825.7913</a></li>
+          <li><a class="hover:text-primary transition-colors" href="mailto:deanryans@rogers.com">deanryans@rogers.com</a></li>
+          <li><a class="hover:text-primary transition-colors" target="_blank" rel="noopener" href="https://www.facebook.com/Dean-Ryan-Enterprises-Inc-510440059068382/">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 pt-10 border-t border-outline-variant/10">
+      <p class="font-caption text-caption text-secondary-fixed-dim">© 2026 Dean Ryans Enterprises Inc. All rights reserved.</p>
+      <div class="flex items-center gap-6 font-caption text-caption text-on-surface-variant">
+        <span>Serving Ottawa &amp; Barrhaven</span>
+        <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+        <span>613.825.7913</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

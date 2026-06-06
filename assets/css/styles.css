@@ -1,0 +1,64 @@
+/* Dean Ryans Enterprises — shared custom styles
+   Layered on top of Tailwind (CDN). */
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+.material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Technical-feel scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #1a1a1a; }
+::-webkit-scrollbar-thumb { background: #8b1d1d; border-radius: 3px; }
+
+/* Hero carousel */
+.carousel-item {
+  transition: opacity 1.2s ease-in-out;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-size: cover;
+  background-position: center;
+}
+.carousel-item.active {
+  opacity: 1;
+  z-index: 10;
+}
+
+.glow-crimson { box-shadow: 0 0 15px rgba(139, 29, 29, 0.35); }
+.text-shadow-hero { text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85); }
+
+/* Hover lift for cards / buttons */
+.service-card-hover { transition: border-color 0.3s ease, transform 0.3s ease; }
+.service-card-hover:hover {
+  border-color: #8b1d1d;
+  transform: translateY(-4px);
+}
+
+.glow-crimson-focus:focus-within { box-shadow: 0 0 12px rgba(139, 29, 29, 0.35); }
+
+/* Scroll-reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile nav drawer */
+#nav-drawer { transition: transform 0.3s ease-in-out; }
+#drawer-overlay { transition: opacity 0.3s ease-in-out; }
