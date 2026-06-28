@@ -122,15 +122,12 @@ html.light #lightbox .text-on-surface-variant { color: #cfcfcf; }
 /* Scrollbar */
 html.light ::-webkit-scrollbar-track { background: #e4e4e1; }
 
-/* The logo is white type + a red leaf on transparency — invisible on light
-   surfaces. Keep brand colours intact by sitting it on a small dark chip. */
-html.light header a img[alt^="Dean"],
-html.light #nav-drawer img[alt^="Dean"],
-html.light footer img[alt^="Dean"] {
-  background: #1f1f22;
-  border-radius: 8px;
-  padding: 6px 12px;
-  box-sizing: content-box;
+/* The logo has its own dark background, so it reads on any surface.
+   Round its corners slightly for polish (both themes). */
+header a img[alt^="Dean"],
+#nav-drawer img[alt^="Dean"],
+footer img[alt^="Dean"] {
+  border-radius: 6px;
 }
 
 /* Theme toggle button */
