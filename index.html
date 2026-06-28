@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="assets/images/logo.png">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="assets/js/config.js"></script>
+<script>(function(){try{var t=localStorage.getItem("theme")||"light";var r=document.documentElement;r.classList.remove("dark","light");r.classList.add(t);}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -30,6 +31,7 @@
       <a class="font-medium text-secondary-fixed-dim hover:text-primary transition-colors" href="contact.html">Contact</a>
     </nav>
     <div class="flex items-center gap-2">
+      <button type="button" class="theme-toggle text-white p-2 hover:text-primary transition-colors" aria-label="Toggle light or dark mode"><span class="material-symbols-outlined text-2xl">dark_mode</span></button>
       <a class="hidden sm:inline-flex items-center gap-2 bg-primary-container text-white px-5 py-2 rounded font-bold hover:bg-crimson-accent transition-all" href="tel:6138257913">
         <span class="material-symbols-outlined text-xl">call</span> Call Now
       </a>
@@ -54,6 +56,7 @@
     <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="gallery.html"><span class="material-symbols-outlined text-primary">photo_library</span>Gallery</a>
     <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="contact.html"><span class="material-symbols-outlined text-primary">mail</span>Contact</a>
   </nav>
+  <button type="button" class="theme-toggle mx-6 mb-3 inline-flex items-center justify-center gap-2 border border-outline-variant/20 text-white px-5 py-3 rounded font-bold hover:text-primary transition-colors" aria-label="Toggle light or dark mode"><span class="material-symbols-outlined">dark_mode</span><span class="theme-toggle-label">Dark Mode</span></button>
   <a class="mt-auto m-6 inline-flex items-center justify-center gap-2 bg-primary-container text-white px-5 py-3 rounded font-bold hover:bg-crimson-accent transition-all" href="tel:6138257913">
     <span class="material-symbols-outlined">call</span> 613.825.7913
   </a>
@@ -64,15 +67,15 @@
   <!-- ===== Hero ===== -->
   <section class="relative h-[85vh] min-h-[560px] overflow-hidden">
     <div class="absolute inset-0" id="hero-carousel">
-      <div class="carousel-item active" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6)), url('assets/images/lawn-care.jpg');"></div>
-      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)), url('assets/images/hero-night.jpg');"></div>
-      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)), url('assets/images/snow-tractor.jpg');"></div>
-      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6)), url('assets/images/truck-lawn.jpg');"></div>
-      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)), url('assets/images/bin-winter.jpg');"></div>
-      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6)), url('assets/images/landscaping-job.jpg');"></div>
-      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6)), url('assets/images/bin-rental.jpg');"></div>
+      <div class="carousel-item active" style="background-image: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.33)), url('assets/images/lawn-care.jpg');"></div>
+      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.48)), url('assets/images/hero-night.jpg');"></div>
+      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.48)), url('assets/images/snow-tractor.jpg');"></div>
+      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.33)), url('assets/images/truck-lawn.jpg');"></div>
+      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.48)), url('assets/images/bin-winter.jpg');"></div>
+      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.33)), url('assets/images/landscaping-job.jpg');"></div>
+      <div class="carousel-item" style="background-image: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.33)), url('assets/images/bin-rental.jpg');"></div>
     </div>
-    <div class="relative z-20 max-w-max-width mx-auto h-full flex flex-col justify-center items-center text-center px-margin-mobile md:px-margin-desktop">
+    <div class="relative z-20 on-photo max-w-max-width mx-auto h-full flex flex-col justify-center items-center text-center px-margin-mobile md:px-margin-desktop">
       <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg max-w-3xl mb-6 text-white text-shadow-hero">Trusted Property Maintenance for Over 35 Years.</h1>
       <p class="font-body-lg text-body-lg max-w-xl mb-10 text-white text-shadow-hero">Professional Snow Removal, Lawn Care, Landscaping, and Bin Rentals across Ottawa &amp; Barrhaven. The reliability of a rugged, professional team dedicated to precision.</p>
       <div class="flex flex-wrap gap-4 justify-center">
@@ -97,8 +100,8 @@
       <!-- Snow Removal -->
       <div class="group relative overflow-hidden border border-outline-variant/20 min-h-[400px] flex items-end rounded-lg reveal">
         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('assets/images/hero-night.jpg');"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-8 w-full z-10">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8 w-full z-10 on-photo">
           <div class="flex items-center gap-3 mb-4"><span class="material-symbols-outlined text-primary text-3xl">ac_unit</span><h3 class="font-headline-md text-headline-md text-white">Snow Removal</h3></div>
           <p class="text-white/90 font-body-md mb-4">Our fleet is ready 24/7 to tackle the toughest Canadian winters — from residential driveways to industrial complexes, we ensure safe passage when the storm hits.</p>
           <a class="inline-flex items-center gap-2 text-primary font-bold group-hover:gap-4 transition-all" href="services.html">Learn More <span class="material-symbols-outlined">arrow_forward</span></a>
@@ -108,8 +111,8 @@
       <!-- Lawn Care -->
       <div class="group relative overflow-hidden border border-outline-variant/20 min-h-[400px] flex items-end rounded-lg reveal">
         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('assets/images/lawn-care.jpg');"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-8 w-full z-10">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8 w-full z-10 on-photo">
           <div class="flex items-center gap-3 mb-4"><span class="material-symbols-outlined text-primary text-3xl">grass</span><h3 class="font-headline-md text-headline-md text-white">Lawn Care</h3></div>
           <p class="text-white/90 font-body-md mb-4">Precision maintenance for commercial and residential properties — mowing, fertilization, and repair with an eye for detail.</p>
           <a class="inline-flex items-center gap-2 text-primary font-bold group-hover:gap-4 transition-all" href="services.html">Learn More <span class="material-symbols-outlined">arrow_forward</span></a>
@@ -119,8 +122,8 @@
       <!-- Landscaping -->
       <div class="group relative overflow-hidden border border-outline-variant/20 min-h-[400px] flex items-end rounded-lg reveal">
         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('assets/images/garden-bed.jpg');"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-8 w-full z-10">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8 w-full z-10 on-photo">
           <div class="flex items-center gap-3 mb-4"><span class="material-symbols-outlined text-primary text-3xl">landscape</span><h3 class="font-headline-md text-headline-md text-white">Landscaping</h3></div>
           <p class="text-white/90 font-body-md mb-4">Full-service landscape transformations including masonry, garden installation, interlock, and structural property improvements.</p>
           <a class="inline-flex items-center gap-2 text-primary font-bold group-hover:gap-4 transition-all" href="services.html">Learn More <span class="material-symbols-outlined">arrow_forward</span></a>
@@ -130,8 +133,8 @@
       <!-- Bin Rentals -->
       <div class="group relative overflow-hidden border border-outline-variant/20 min-h-[400px] flex items-end rounded-lg reveal">
         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('assets/images/bin-winter.jpg');"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 p-8 w-full z-10">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8 w-full z-10 on-photo">
           <div class="flex items-center gap-3 mb-4"><span class="material-symbols-outlined text-primary text-3xl">delete_sweep</span><h3 class="font-headline-md text-headline-md text-white">Bin Rentals</h3></div>
           <p class="text-white/90 font-body-md mb-4">Robust disposal solutions for renovation debris, landscaping waste, and clean-ups. On-time delivery and pickup, every time.</p>
           <a class="inline-flex items-center gap-2 text-primary font-bold group-hover:gap-4 transition-all" href="services.html">Learn More <span class="material-symbols-outlined">arrow_forward</span></a>

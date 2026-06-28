@@ -62,3 +62,76 @@ body {
 /* Mobile nav drawer */
 #nav-drawer { transition: transform 0.3s ease-in-out; }
 #drawer-overlay { transition: opacity 0.3s ease-in-out; }
+
+/* ===========================================================
+   LIGHT THEME — activated by `html.light`
+   The markup is hardcoded for a dark look, so light mode is a
+   scoped override layer. Text that sits on top of photos is kept
+   white via the `.on-photo` marker class.
+   =========================================================== */
+
+html.light body { background-color: #f4f4f2; color: #1b1b1d; }
+
+/* Surfaces / backgrounds */
+html.light .bg-background { background-color: #f4f4f2 !important; }
+html.light .bg-background-deep,
+html.light .bg-surface-container-lowest,
+html.light .bg-surface-container { background-color: #ffffff !important; }
+html.light #site-header { background-color: rgba(248, 248, 246, 0.95) !important; }
+html.light #nav-drawer { background-color: #ffffff !important; }
+html.light footer { background-color: #ebeae7 !important; }
+
+/* Text colour flips (utilities that were white on dark) */
+html.light .text-white { color: #1b1b1d; }
+html.light .text-white\/90 { color: rgba(27, 27, 29, 0.85); }
+html.light .text-on-surface { color: #1b1b1d; }
+html.light .text-on-surface-variant { color: #57575e; }
+html.light .text-secondary-fixed-dim { color: #3a3a40; }
+html.light .text-primary { color: #8b1d1d; }
+
+/* Borders */
+html.light .border-outline-variant\/10 { border-color: rgba(0, 0, 0, 0.08) !important; }
+html.light .border-outline-variant\/20 { border-color: rgba(0, 0, 0, 0.12) !important; }
+html.light .border-white\/10 { border-color: rgba(0, 0, 0, 0.10) !important; }
+html.light .border-white\/15 { border-color: rgba(0, 0, 0, 0.16) !important; }
+html.light .border-white { border-color: #1b1b1d; }
+
+/* Icon chips */
+html.light .bg-primary-container\/20 { background-color: rgba(139, 29, 29, 0.08) !important; }
+
+/* Form fields */
+html.light input,
+html.light select,
+html.light textarea { color: #1b1b1d; }
+html.light input::placeholder,
+html.light textarea::placeholder { color: #9a9aa0; }
+
+/* Keep text/borders WHITE where they sit on top of a photo */
+html.light .on-photo .text-white,
+html.light .on-photo .text-white\/90,
+html.light .gallery-item .text-white,
+html.light .bg-primary-container.text-white,
+html.light .bg-crimson-accent.text-white { color: #ffffff !important; }
+html.light .on-photo .text-primary { color: #ffb3ad; }
+html.light .on-photo .border-white { border-color: #ffffff; }
+
+/* Lightbox stays dark in both themes — keep its controls/caption light */
+html.light #lightbox .text-white { color: #ffffff; }
+html.light #lightbox .text-on-surface-variant { color: #cfcfcf; }
+
+/* Scrollbar */
+html.light ::-webkit-scrollbar-track { background: #e4e4e1; }
+
+/* The logo is white type + a red leaf on transparency — invisible on light
+   surfaces. Keep brand colours intact by sitting it on a small dark chip. */
+html.light header a img[alt^="Dean"],
+html.light #nav-drawer img[alt^="Dean"],
+html.light footer img[alt^="Dean"] {
+  background: #1f1f22;
+  border-radius: 8px;
+  padding: 6px 12px;
+  box-sizing: content-box;
+}
+
+/* Theme toggle button */
+.theme-toggle { cursor: pointer; }

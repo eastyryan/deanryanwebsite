@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="assets/images/logo.png">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="assets/js/config.js"></script>
+<script>(function(){try{var t=localStorage.getItem("theme")||"light";var r=document.documentElement;r.classList.remove("dark","light");r.classList.add(t);}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -30,6 +31,7 @@
       <a class="font-medium text-secondary-fixed-dim hover:text-primary transition-colors" href="contact.html">Contact</a>
     </nav>
     <div class="flex items-center gap-2">
+      <button type="button" class="theme-toggle text-white p-2 hover:text-primary transition-colors" aria-label="Toggle light or dark mode"><span class="material-symbols-outlined text-2xl">dark_mode</span></button>
       <a class="hidden sm:inline-flex items-center gap-2 bg-primary-container text-white px-5 py-2 rounded font-bold hover:bg-crimson-accent transition-all" href="tel:6138257913">
         <span class="material-symbols-outlined text-xl">call</span> Call Now
       </a>
@@ -54,6 +56,7 @@
     <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="gallery.html"><span class="material-symbols-outlined text-primary">photo_library</span>Gallery</a>
     <a class="flex items-center gap-3 py-3 px-3 rounded text-white hover:bg-surface-container transition-colors" href="contact.html"><span class="material-symbols-outlined text-primary">mail</span>Contact</a>
   </nav>
+  <button type="button" class="theme-toggle mx-6 mb-3 inline-flex items-center justify-center gap-2 border border-outline-variant/20 text-white px-5 py-3 rounded font-bold hover:text-primary transition-colors" aria-label="Toggle light or dark mode"><span class="material-symbols-outlined">dark_mode</span><span class="theme-toggle-label">Dark Mode</span></button>
   <a class="mt-auto m-6 inline-flex items-center justify-center gap-2 bg-primary-container text-white px-5 py-3 rounded font-bold hover:bg-crimson-accent transition-all" href="tel:6138257913">
     <span class="material-symbols-outlined">call</span> 613.825.7913
   </a>
@@ -62,7 +65,7 @@
 <main class="pt-20">
 
   <!-- ===== Hero ===== -->
-  <section class="relative py-28 md:py-36 px-margin-mobile md:px-margin-desktop border-b border-outline-variant/10 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)), url('assets/images/truck-lawn.jpg');">
+  <section class="relative py-28 md:py-36 px-margin-mobile md:px-margin-desktop border-b border-outline-variant/10 bg-cover bg-center on-photo" style="background-image: linear-gradient(rgba(0,0,0,0.48), rgba(0,0,0,0.62)), url('assets/images/truck-lawn.jpg');">
     <div class="max-w-max-width mx-auto text-center">
       <span class="font-label-mono text-label-mono uppercase tracking-widest text-primary mb-4 block">Established 1991</span>
       <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-6 text-shadow-hero">A Legacy of Dependability</h1>

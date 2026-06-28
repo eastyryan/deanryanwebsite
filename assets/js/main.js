@@ -1,6 +1,38 @@
 /* Dean Ryans Enterprises — site behaviour */
 document.addEventListener('DOMContentLoaded', function () {
 
+  /* ---- Light / dark theme toggle ---- */
+  var root = document.documentElement;
+  var themeToggles = Array.prototype.slice.call(document.querySelectorAll('.theme-toggle'));
+
+  function currentTheme() {
+    return root.classList.contains('light') ? 'light' : 'dark';
+  }
+  function syncToggleUI() {
+    var isLight = currentTheme() === 'light';
+    // Icon/label describe the action: in light mode, offer to switch to dark.
+    var icon = isLight ? 'dark_mode' : 'light_mode';
+    var label = isLight ? 'Dark Mode' : 'Light Mode';
+    themeToggles.forEach(function (btn) {
+      var ic = btn.querySelector('.material-symbols-outlined');
+      if (ic) ic.textContent = icon;
+      var lab = btn.querySelector('.theme-toggle-label');
+      if (lab) lab.textContent = label;
+    });
+  }
+  function setTheme(theme) {
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    syncToggleUI();
+  }
+  syncToggleUI();
+  themeToggles.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+    });
+  });
+
   /* ---- Mobile nav drawer ---- */
   var menuBtn = document.getElementById('menu-btn');
   var closeBtn = document.getElementById('drawer-close');
