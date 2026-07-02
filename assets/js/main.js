@@ -175,10 +175,19 @@ document.addEventListener('DOMContentLoaded', function () {
       var hp = form.querySelector('[name="botcheck"]');
       if (hp && hp.checked) return;
 
+      // Normalize postal code: strip spaces, uppercase (e.g. "k2j0a0" -> "K2J0A0")
+      var postalRaw = get('postal_code');
+      var postalNorm = postalRaw.replace(/\s+/g, '').toUpperCase();
+      // Barrhaven service area — forward sortation areas K2J and K2G
+      var isBarrhaven = /^K2[JG]/.test(postalNorm);
+
       var data = {
         name: get('name'),
         email: get('email'),
         phone: get('phone'),
+        address: get('address'),
+        city: get('city'),
+        postal_code: postalNorm,
         service: get('service'),
         message: get('message')
       };
@@ -197,6 +206,10 @@ document.addEventListener('DOMContentLoaded', function () {
           name: data.name,
           email: data.email,
           phone: data.phone,
+          address: data.address,
+          city: data.city,
+          postal_code: data.postal_code,
+          service_area: isBarrhaven ? 'Barrhaven (K2J/K2G)' : 'Outside Barrhaven',
           service: data.service,
           message: data.message
         })
@@ -216,6 +229,18 @@ document.addEventListener('DOMContentLoaded', function () {
         body: JSON.stringify(data)
       }).then(function (r) { return r.ok; })
         .catch(function () { return false; });
+
+      // 3) Auto-response to the customer (best-effort — never blocks success).
+      //    Barrhaven postal codes (K2J/K2G) also get the contract PDF attached.
+      fetch(SUPABASE_URL + '/functions/v1/inquiry-autoresponse', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify(data)
+      }).catch(function () { /* auto-response is non-critical */ });
 
       Promise.all([emailReq, dbReq]).then(function (results) {
         var emailOk = results[0];

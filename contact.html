@@ -145,6 +145,20 @@
               </div>
             </div>
             <div>
+              <label for="address" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Property Address</label>
+              <input id="address" name="address" type="text" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="123 Main St">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="city" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">City</label>
+                <input id="city" name="city" type="text" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="Ottawa">
+              </div>
+              <div>
+                <label for="postal_code" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Postal Code</label>
+                <input id="postal_code" name="postal_code" type="text" required autocomplete="postal-code" maxlength="7" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white uppercase focus:border-primary focus:ring-0 outline-none" placeholder="K2J 0A0">
+              </div>
+            </div>
+            <div>
               <label for="service" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Service Required</label>
               <select id="service" name="service" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none">
                 <option>Snow Removal</option>
