@@ -30,6 +30,9 @@ const FROM_EMAIL =
   process.env.FROM_EMAIL || 'Dean Ryans Enterprises <inquiries@deanryans.com>';
 const REPLY_TO = process.env.REPLY_TO || 'deanryans@rogers.com';
 const BCC_EMAIL = process.env.BCC_EMAIL || '';
+// Brand red (matches primary-container in assets/js/config.js), dark enough to
+// stay legible as a link on the white background email clients render on.
+const LINK = '#8b1d1d';
 
 // Barrhaven auto-send area — forward sortation areas K2J and K2G.
 function isBarrhavenPostal(postal) {
@@ -157,13 +160,18 @@ module.exports = async function handler(req, res) {
     '. We’ve received your inquiry.</p>' +
     contractBlurb +
     '<p>If you need us sooner, call <a href="tel:6138257913">613.825.7913</a>.</p>' +
-    // Signature: bold name, tagline beneath it, logo below that.
+    // Signature: bold name, tagline, contact links, then the logo.
     '<div style="margin-top:28px">' +
-    '<div style="font-weight:bold">Dean Ryans</div>' +
+    '<div style="font-weight:bold">DeanRyans</div>' +
     '<div style="color:#555">Trusted Property Maintenance since 1991</div>' +
+    '<div style="margin-top:8px">' +
+    '<a href="https://www.deanryans.com" style="color:' + LINK + '">deanryans.com</a><br>' +
+    '<a href="mailto:deanryans@rogers.com" style="color:' + LINK + '">deanryans@rogers.com</a><br>' +
+    '<a href="tel:6138257913" style="color:' + LINK + '">613.825.7913</a>' +
+    '</div>' +
     '<img src="' + logoUrl(req) + '" width="260" ' +
-    'alt="Dean Ryans — Landscape / Property Maintenance — www.deanryans.com" ' +
-    'style="display:block;margin-top:12px;width:260px;max-width:100%;height:auto;border:0">' +
+    'alt="DeanRyans — Landscape / Property Maintenance — www.deanryans.com" ' +
+    'style="display:block;margin-top:14px;width:260px;max-width:100%;height:auto;border:0">' +
     '</div>' +
     '</div>';
 
