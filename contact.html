@@ -132,26 +132,26 @@
           <form id="contact-form" class="space-y-6">
             <div>
               <label for="name" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Full Name</label>
-              <input id="name" name="name" type="text" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="Your name">
+              <input id="name" name="name" type="text" required autocomplete="name" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="Your name">
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label for="email" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Email</label>
-                <input id="email" name="email" type="email" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="you@example.com">
+                <input id="email" name="email" type="email" required autocomplete="email" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="you@example.com">
               </div>
               <div>
                 <label for="phone" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Phone</label>
-                <input id="phone" name="phone" type="tel" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="613.000.0000">
+                <input id="phone" name="phone" type="tel" autocomplete="tel" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="613.000.0000">
               </div>
             </div>
             <div>
               <label for="address" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Property Address</label>
-              <input id="address" name="address" type="text" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="123 Main St">
+              <input id="address" name="address" type="text" required autocomplete="street-address" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="123 Main St">
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label for="city" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">City</label>
-                <input id="city" name="city" type="text" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="Ottawa">
+                <input id="city" name="city" type="text" autocomplete="address-level2" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="Ottawa">
               </div>
               <div>
                 <label for="postal_code" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Postal Code</label>
