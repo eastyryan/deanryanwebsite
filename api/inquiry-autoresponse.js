@@ -165,9 +165,9 @@ module.exports = async function handler(req, res) {
     '<div style="font-weight:bold">DeanRyans</div>' +
     '<div style="color:#555">Trusted Property Maintenance since 1991</div>' +
     '<div style="margin-top:8px">' +
-    '<a href="https://www.deanryans.com" style="color:' + LINK + '">deanryans.com</a><br>' +
-    '<a href="mailto:deanryans@rogers.com" style="color:' + LINK + '">deanryans@rogers.com</a><br>' +
-    '<a href="tel:6138257913" style="color:' + LINK + '">613.825.7913</a>' +
+    '<a href="https://www.deanryans.com" style="color:' + LINK + '">www.deanryans.com</a><br>' +
+    'E: <a href="mailto:deanryans@rogers.com" style="color:' + LINK + '">deanryans@rogers.com</a><br>' +
+    'P: <a href="tel:6138257913" style="color:' + LINK + '">613.825.7913</a>' +
     '</div>' +
     '<img src="' + logoUrl(req) + '" width="260" ' +
     'alt="DeanRyans — Landscape / Property Maintenance — www.deanryans.com" ' +
