@@ -12,6 +12,11 @@
 // project was deleted. Running it on Vercel keeps it same-origin with the site
 // (no CORS, no anon key in the browser) and removes the Supabase dependency.
 //
+// The contract is attached ONLY when BOTH are true:
+//   - the service requested is Snow Removal, and
+//   - the postal code is in the Barrhaven auto-send area (K2J / K2G).
+// A Barrhaven lawn-care lead gets a plain confirmation, not a snow contract.
+//
 // Required environment variable (Vercel → Project → Settings → Environment Variables):
 //   RESEND_API_KEY   — from resend.com/api-keys
 // Optional overrides:
@@ -19,15 +24,22 @@
 //   REPLY_TO         — where customer replies land, defaults to deanryans@rogers.com
 //   BCC_EMAIL        — copy the owner on every auto-response
 //   CONTRACT_PDF_URL — defaults to the contract.pdf on this same deployment
+//   LOGO_URL         — defaults to the signature logo on this same deployment
 
 const FROM_EMAIL =
   process.env.FROM_EMAIL || 'Dean Ryans Enterprises <inquiries@deanryans.com>';
 const REPLY_TO = process.env.REPLY_TO || 'deanryans@rogers.com';
 const BCC_EMAIL = process.env.BCC_EMAIL || '';
 
-// Barrhaven service area — forward sortation areas K2J and K2G.
+// Barrhaven auto-send area — forward sortation areas K2J and K2G.
 function isBarrhavenPostal(postal) {
   return /^K2[JG]/.test(String(postal || '').replace(/\s+/g, '').toUpperCase());
+}
+
+// The contract covers snow removal only. Matches the "Snow Removal" dropdown
+// value, and stays tolerant of wording changes to that option.
+function isSnowRemoval(service) {
+  return /snow/i.test(String(service || ''));
 }
 
 function esc(s) {
@@ -36,15 +48,20 @@ function esc(s) {
   });
 }
 
-// Resolve the contract PDF against this deployment so preview builds attach
-// their own copy rather than reaching into production.
-function contractUrl(req) {
-  if (process.env.CONTRACT_PDF_URL) return process.env.CONTRACT_PDF_URL;
+// Resolve site assets against this deployment so preview builds use their own
+// copies rather than reaching into production.
+function assetUrl(req, path) {
   const host = req.headers['x-forwarded-host'] || req.headers.host;
   const proto = req.headers['x-forwarded-proto'] || 'https';
-  return host
-    ? proto + '://' + host + '/assets/contract.pdf'
-    : 'https://www.deanryans.com/assets/contract.pdf';
+  return (host ? proto + '://' + host : 'https://www.deanryans.com') + path;
+}
+
+function contractUrl(req) {
+  return process.env.CONTRACT_PDF_URL || assetUrl(req, '/assets/contract.pdf');
+}
+
+function logoUrl(req) {
+  return process.env.LOGO_URL || assetUrl(req, '/assets/images/logo.png');
 }
 
 // Fetch the contract PDF and base64-encode it for a Resend attachment.
@@ -102,30 +119,35 @@ module.exports = async function handler(req, res) {
   }
 
   const barrhaven = isBarrhavenPostal(postal);
+  const snow = isSnowRemoval(service);
+  // Snow contract goes out only to snow-removal leads inside the auto-send area.
+  const contractEligible = barrhaven && snow;
   const firstName = name ? name.split(/\s+/)[0] : 'there';
 
   const attachments = [];
-  if (barrhaven) {
+  if (contractEligible) {
     const pdf = await fetchContractBase64(contractUrl(req));
     if (pdf) {
       attachments.push({
-        filename: 'Dean-Ryans-Service-Contract.pdf',
+        filename: 'Dean-Ryans-Snow-Removal-Contract.pdf',
         content: pdf,
       });
     } else {
-      console.warn('Barrhaven inquiry but contract PDF unavailable:', contractUrl(req));
+      console.warn(
+        'Eligible snow-removal inquiry but contract PDF unavailable:',
+        contractUrl(req)
+      );
     }
   }
 
   const contractBlurb =
-    barrhaven && attachments.length
-      ? '<p>Great news — your property is right in our Barrhaven service area, so we’ve attached our service contract to help you get started right away. Review it at your convenience and reply to this email with any questions.</p>'
+    attachments.length
+      ? '<p>Great news — your property is right in our Barrhaven snow removal area, so we’ve attached our snow removal contract to help you get started right away. Review it at your convenience and reply to this email with any questions.</p>'
       : '<p>We’ll review your request and get back to you within one business day with next steps.</p>';
 
-  const subject =
-    barrhaven && attachments.length
-      ? 'Your Dean Ryans inquiry — service contract enclosed'
-      : 'We received your inquiry — Dean Ryans Enterprises';
+  const subject = attachments.length
+    ? 'Your Dean Ryans snow removal inquiry — contract enclosed'
+    : 'We received your inquiry — Dean Ryans Enterprises';
 
   const html =
     '<div style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;line-height:1.6;max-width:560px">' +
@@ -135,8 +157,14 @@ module.exports = async function handler(req, res) {
     '. We’ve received your inquiry.</p>' +
     contractBlurb +
     '<p>If you need us sooner, call <a href="tel:6138257913">613.825.7913</a>.</p>' +
-    '<p style="margin-top:24px">— The Dean Ryans Enterprises Team<br>' +
-    '<span style="color:#666">Serving Ottawa &amp; Barrhaven since 1991</span></p>' +
+    // Signature: bold name, tagline beneath it, logo below that.
+    '<div style="margin-top:28px">' +
+    '<div style="font-weight:bold">Dean Ryans</div>' +
+    '<div style="color:#555">Trusted Property Maintenance since 1991</div>' +
+    '<img src="' + logoUrl(req) + '" width="260" ' +
+    'alt="Dean Ryans — Landscape / Property Maintenance — www.deanryans.com" ' +
+    'style="display:block;margin-top:12px;width:260px;max-width:100%;height:auto;border:0">' +
+    '</div>' +
     '</div>';
 
   const payload = {
@@ -170,7 +198,10 @@ module.exports = async function handler(req, res) {
     return res.status(502).json({ error: 'Failed to send auto-response' });
   }
 
-  return res
-    .status(200)
-    .json({ ok: true, barrhaven: barrhaven, contract_sent: attachments.length > 0 });
+  return res.status(200).json({
+    ok: true,
+    barrhaven: barrhaven,
+    snow_removal: snow,
+    contract_sent: attachments.length > 0,
+  });
 };

@@ -181,8 +181,10 @@ document.addEventListener('DOMContentLoaded', function () {
       // Normalize postal code: strip spaces, uppercase (e.g. "k2j0a0" -> "K2J0A0")
       var postalRaw = get('postal_code');
       var postalNorm = postalRaw.replace(/\s+/g, '').toUpperCase();
-      // Barrhaven service area — forward sortation areas K2J and K2G
+      // Barrhaven auto-send area — forward sortation areas K2J and K2G
       var isBarrhaven = /^K2[JG]/.test(postalNorm);
+      // The snow removal contract only auto-sends to snow leads inside that area.
+      var isContractLead = isBarrhaven && /snow/i.test(get('service'));
 
       var data = {
         name: get('name'),
@@ -253,7 +255,9 @@ document.addEventListener('DOMContentLoaded', function () {
           if (!autoOk) {
             console.warn(
               'Contact form: inquiry reached Dean Ryans, but the customer confirmation email did not send' +
-              (isBarrhaven ? ' (Barrhaven lead — contract PDF was NOT delivered).' : '.')
+              (isContractLead
+                ? ' (eligible snow removal lead — contract PDF was NOT delivered).'
+                : '.')
             );
           }
         } else {
