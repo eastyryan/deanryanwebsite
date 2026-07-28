@@ -160,7 +160,12 @@
             </div>
             <div>
               <label for="service" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Service Required</label>
-              <select id="service" name="service" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none">
+              <!-- Placeholder is disabled + selected so the customer must actively
+                   choose. Without it the browser auto-selects the first real option,
+                   which made every untouched dropdown report "Snow Removal" and
+                   wrongly qualified Barrhaven leads for the snow contract. -->
+              <select id="service" name="service" required class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white invalid:text-on-surface-variant focus:border-primary focus:ring-0 outline-none">
+                <option value="" disabled selected>Select a service…</option>
                 <option>Snow Removal</option>
                 <option>Lawn Care</option>
                 <option>Landscaping</option>
