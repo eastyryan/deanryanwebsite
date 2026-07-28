@@ -149,6 +149,119 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ---- Address type-ahead (City of Ottawa address data via /api) ----
+     Progressive enhancement: the address field is a normal required text input,
+     and every failure path here leaves it exactly that. The city field is filled
+     on selection; postal code stays manual because municipal data has none. */
+  var addrInput = document.getElementById('address');
+  var addrList = document.getElementById('address-suggestions');
+  if (addrInput && addrList && window.fetch) {
+    var addrHint = document.getElementById('address-hint');
+    var cityInput = document.getElementById('city');
+    var items = [];
+    var activeIndex = -1;
+    var lastQuery = '';
+    var debounce = null;
+    var seq = 0;
+
+    var closeList = function () {
+      addrList.classList.add('hidden');
+      addrList.innerHTML = '';
+      addrInput.setAttribute('aria-expanded', 'false');
+      addrInput.removeAttribute('aria-activedescendant');
+      items = [];
+      activeIndex = -1;
+    };
+
+    var setActive = function (i) {
+      var nodes = addrList.querySelectorAll('[role="option"]');
+      if (!nodes.length) return;
+      if (i < 0) i = nodes.length - 1;
+      if (i >= nodes.length) i = 0;
+      activeIndex = i;
+      Array.prototype.forEach.call(nodes, function (n, idx) {
+        var on = idx === i;
+        n.setAttribute('aria-selected', on ? 'true' : 'false');
+        n.classList.toggle('bg-primary-container', on);
+        n.classList.toggle('text-white', on);
+      });
+      nodes[i].scrollIntoView({ block: 'nearest' });
+      addrInput.setAttribute('aria-activedescendant', nodes[i].id);
+    };
+
+    var choose = function (i) {
+      var s = items[i];
+      if (!s) return;
+      addrInput.value = s.address;
+      // Only fill city if the visitor hasn't already put something there.
+      if (cityInput && !cityInput.value.trim()) cityInput.value = s.city;
+      closeList();
+      var postal = document.getElementById('postal_code');
+      if (postal && !postal.value.trim()) postal.focus();
+    };
+
+    var render = function (list) {
+      items = list;
+      if (!list.length) { closeList(); return; }
+      addrList.innerHTML = '';
+      list.forEach(function (s, i) {
+        var li = document.createElement('li');
+        li.id = 'address-option-' + i;
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', 'false');
+        li.className = 'px-4 py-3 cursor-pointer text-white hover:bg-primary-container border-b border-white/5 last:border-b-0';
+        li.textContent = s.address;
+        // mousedown, not click: it fires before the input's blur closes the list.
+        li.addEventListener('mousedown', function (e) { e.preventDefault(); choose(i); });
+        addrList.appendChild(li);
+      });
+      addrList.classList.remove('hidden');
+      addrInput.setAttribute('aria-expanded', 'true');
+      activeIndex = -1;
+    };
+
+    var lookup = function (q) {
+      var mine = ++seq;
+      fetch('/api/address-suggest?q=' + encodeURIComponent(q))
+        .then(function (r) { return r.ok ? r.json() : { suggestions: [] }; })
+        .then(function (d) {
+          // Ignore responses that arrive out of order or after the field moved on.
+          if (mine !== seq || addrInput.value.trim() !== q) return;
+          var list = (d && d.suggestions) || [];
+          render(list);
+          if (addrHint) addrHint.classList.toggle('hidden', list.length > 0);
+        })
+        .catch(function () {
+          // Lookup is a convenience; typing the address by hand always works.
+          if (mine === seq) closeList();
+        });
+    };
+
+    addrInput.addEventListener('input', function () {
+      var q = addrInput.value.trim();
+      if (addrHint) addrHint.classList.add('hidden');
+      if (q === lastQuery) return;
+      lastQuery = q;
+      clearTimeout(debounce);
+      if (q.length < 3) { closeList(); return; }
+      debounce = setTimeout(function () { lookup(q); }, 250);
+    });
+
+    addrInput.addEventListener('keydown', function (e) {
+      var open = !addrList.classList.contains('hidden');
+      if (e.key === 'ArrowDown') { if (open) { e.preventDefault(); setActive(activeIndex + 1); } }
+      else if (e.key === 'ArrowUp') { if (open) { e.preventDefault(); setActive(activeIndex - 1); } }
+      else if (e.key === 'Enter') { if (open && activeIndex >= 0) { e.preventDefault(); choose(activeIndex); } }
+      else if (e.key === 'Escape') { if (open) { e.preventDefault(); closeList(); } }
+      else if (e.key === 'Tab') { closeList(); }
+    });
+
+    addrInput.addEventListener('blur', function () { setTimeout(closeList, 120); });
+    document.addEventListener('click', function (e) {
+      if (e.target !== addrInput && !addrList.contains(e.target)) closeList();
+    });
+  }
+
   /* ---- Contact form -> Web3Forms (owner email) + /api (customer auto-response) ----
      The customer auto-response used to live on a Supabase Edge Function. That
      Supabase project no longer exists, which silently killed both the customer

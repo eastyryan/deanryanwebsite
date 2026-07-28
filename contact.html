@@ -146,7 +146,13 @@
             </div>
             <div>
               <label for="address" class="block font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Property Address</label>
-              <input id="address" name="address" type="text" required autocomplete="street-address" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="123 Main St">
+              <!-- Type-ahead against the City of Ottawa address database. The list
+                   is populated by main.js; with JS off this stays a plain input. -->
+              <div class="relative">
+                <input id="address" name="address" type="text" required autocomplete="street-address" role="combobox" aria-expanded="false" aria-controls="address-suggestions" aria-autocomplete="list" class="w-full bg-surface-container border border-white/15 rounded px-4 py-3 text-white focus:border-primary focus:ring-0 outline-none" placeholder="Start typing your address...">
+                <ul id="address-suggestions" role="listbox" aria-label="Address suggestions" class="hidden absolute z-30 left-0 right-0 top-full mt-1 bg-surface-container-lowest border border-white/15 rounded shadow-lg shadow-black/50 max-h-60 overflow-y-auto"></ul>
+              </div>
+              <p id="address-hint" class="mt-2 font-label-mono text-label-mono text-on-surface-variant/70 hidden">Not finding it? Just type the address in full.</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
