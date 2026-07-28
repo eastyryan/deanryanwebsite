@@ -1,5 +1,5 @@
-
-# Supabase CLI local files
-supabase/.temp/
-supabase/.branches/
 .env
+.vercel/
+node_modules/
+.vercel
+.env*

@@ -149,12 +149,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ---- Contact form -> Web3Forms (email) + Supabase (database) ---- */
+  /* ---- Contact form -> Web3Forms (owner email) + /api (customer auto-response) ----
+     The customer auto-response used to live on a Supabase Edge Function. That
+     Supabase project no longer exists, which silently killed both the customer
+     confirmation email and the Barrhaven contract PDF. It now runs same-origin
+     as a Vercel function at /api/inquiry-autoresponse. */
   var form = document.getElementById('contact-form');
   if (form) {
     var WEB3FORMS_KEY = 'db141016-8e80-4247-9acf-26ed8d3494cd';
-    var SUPABASE_URL = 'https://rvlmtpcuclthdatzmnol.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2bG10cGN1Y2x0aGRhdHptbm9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NjcwMzcsImV4cCI6MjA5NjM0MzAzN30.AjS88fM-rBMlOV-aQ32XCxnu2GGv_bPDexrmHGsVkns';
+    var AUTORESPONSE_URL = '/api/inquiry-autoresponse';
 
     var note = document.getElementById('form-note');
     var submitBtn = document.getElementById('submit-btn');
@@ -217,41 +220,42 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (j) { return j && j.success === true; })
         .catch(function () { return false; });
 
-      // 2) Supabase — stores the submission in contact_submissions
-      var dbReq = fetch(SUPABASE_URL + '/rest/v1/contact_submissions', {
+      // 2) Customer auto-response — confirmation email, plus the service contract
+      //    PDF for Barrhaven postal codes (K2J/K2G). Best-effort: a failure here
+      //    must not tell the customer their inquiry was lost, since the owner
+      //    notification above is what actually captures the lead. Failures are
+      //    reported rather than swallowed, so this can't break silently again.
+      var autoReq = fetch(AUTORESPONSE_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-          'Prefer': 'return=minimal'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
-      }).then(function (r) { return r.ok; })
-        .catch(function () { return false; });
+      }).then(function (r) {
+        if (!r.ok) {
+          return r.text().then(function (t) {
+            console.error('Auto-response failed:', r.status, t);
+            return false;
+          });
+        }
+        return true;
+      }).catch(function (err) {
+        console.error('Auto-response request failed:', err);
+        return false;
+      });
 
-      // 3) Auto-response to the customer (best-effort — never blocks success).
-      //    Barrhaven postal codes (K2J/K2G) also get the contract PDF attached.
-      fetch(SUPABASE_URL + '/functions/v1/inquiry-autoresponse', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
-        },
-        body: JSON.stringify(data)
-      }).catch(function () { /* auto-response is non-critical */ });
-
-      Promise.all([emailReq, dbReq]).then(function (results) {
+      Promise.all([emailReq, autoReq]).then(function (results) {
         var emailOk = results[0];
-        var dbOk = results[1];
+        var autoOk = results[1];
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send Message'; }
 
-        if (emailOk || dbOk) {
+        if (emailOk) {
           form.reset();
           setNote("Thanks! Your message has been sent — we'll be in touch shortly.", 'success');
-          if (!emailOk) console.warn('Contact form: email delivery failed but submission was saved.');
-          if (!dbOk) console.warn('Contact form: database save failed but email was sent.');
+          if (!autoOk) {
+            console.warn(
+              'Contact form: inquiry reached Dean Ryans, but the customer confirmation email did not send' +
+              (isBarrhaven ? ' (Barrhaven lead — contract PDF was NOT delivered).' : '.')
+            );
+          }
         } else {
           setNote('Sorry, something went wrong. Please call 613.825.7913 or email deanryans@rogers.com.', 'error');
         }
